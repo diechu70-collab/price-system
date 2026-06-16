@@ -20,3 +20,19 @@ def quote(user_id: int, product_id: int):
 @app.post("/admin/update")
 def update(product_id: int, price: float):
     return update_price(product_id, price)
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"msg": "报价系统运行中"}
+
+# 新增接口（重点）
+@app.get("/price")
+def price(cost: float):
+    return {
+        "成本": cost,
+        "利润": cost * 0.3,
+        "售价": cost * 1.3
+    }
