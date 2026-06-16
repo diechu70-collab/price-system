@@ -29,10 +29,29 @@ def home():
     return {"msg": "报价系统运行中"}
 
 # 新增接口（重点）
-@app.get("/price")
-def price(cost: float):
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+# 请求模型（重点）
+class PriceRequest(BaseModel):
+    cost: float
+
+@app.get("/")
+def home():
+    return {"msg": "报价系统运行中"}
+
+# POST接口（重点）
+@app.post("/price")
+def price(data: PriceRequest):
+    cost = data.cost
+    profit = cost * 0.3
+    price = cost + profit
+
     return {
         "成本": cost,
-        "利润": cost * 0.3,
-        "售价": cost * 1.3
+        "利润": profit,
+        "售价": price
     }
+    
